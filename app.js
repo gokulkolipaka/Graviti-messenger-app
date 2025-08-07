@@ -15,6 +15,17 @@ class ChatApp {
         };
         
         this.init();
+        // Force app to always be enabled on startup
+this.companySettings.appEnabled = true;
+this.companySettings.disableUntil = null;
+this.companySettings.disableReason = "";
+this.saveData();
+
+// Hide disabled screen immediately  
+const disabledScreen = document.getElementById('appDisabledScreen');
+if (disabledScreen) {
+    disabledScreen.classList.add('hidden');
+}
     }
 
     init() {
