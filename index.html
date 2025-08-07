@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechCorp Chat - Internal Messaging</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <div id="companyLogo" class="company-logo">
+                    <span class="company-icon">🏢</span>
+                </div>
+                <h1 id="companyName">TechCorp Inc.</h1>
+                <p>Internal Chat System</p>
+            </div>
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <label for="phoneNumber" class="form-label">Phone Number</label>
+                    <input type="tel" id="phoneNumber" class="form-control" placeholder="+1234567890" required>
+                </div>
+                <button type="submit" class="btn btn--primary btn--full-width">Login</button>
+            </form>
+            <div id="loginError" class="error-message hidden"></div>
+        </div>
+    </div>
+
+    <!-- Main Chat Application -->
+    <div id="chatApp" class="chat-app hidden">
+        <div class="chat-header">
+            <div class="chat-header-left">
+                <div id="headerCompanyLogo" class="header-logo">
+                    <span class="company-icon">🏢</span>
+                </div>
+                <h2 id="headerCompanyName">TechCorp Inc.</h2>
+            </div>
+            <div class="chat-header-right">
+                <span id="userInfo" class="user-info"></span>
+                <button id="settingsBtn" class="btn btn--outline btn--sm">Settings</button>
+                <button id="logoutBtn" class="btn btn--outline btn--sm">Logout</button>
+            </div>
+        </div>
+
+        <div class="chat-container">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="sidebar-header">
+                    <h3>Chats</h3>
+                    <button id="newGroupBtn" class="btn btn--primary btn--sm">New Group</button>
+                </div>
+                <div class="search-container">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Search contacts...">
+                </div>
+                <div class="chat-list" id="chatList">
+                    <!-- Contact list will be populated here -->
+                </div>
+            </div>
+
+            <!-- Main Chat Area -->
+            <div class="main-chat">
+                <div id="welcomeScreen" class="welcome-screen">
+                    <div class="welcome-content">
+                        <h2>Welcome to <span id="welcomeCompanyName">TechCorp</span> Chat</h2>
+                        <p>Select a contact to start messaging</p>
+                        <div class="feature-list">
+                            <div class="feature-item">📱 Internal directory integration</div>
+                            <div class="feature-item">💬 Real-time messaging</div>
+                            <div class="feature-item">👥 Group conversations</div>
+                            <div class="feature-item">📎 File attachments</div>
+                            <div class="feature-item">😊 Emoji support</div>
+                            <div class="feature-item">🔔 Push notifications</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="chatArea" class="chat-area hidden">
+                    <div class="chat-header-info">
+                        <div class="chat-contact-info">
+                            <span id="chatContactAvatar" class="contact-avatar">👤</span>
+                            <div>
+                                <h4 id="chatContactName">Contact Name</h4>
+                                <span id="chatContactStatus" class="contact-status">online</span>
+                            </div>
+                        </div>
+                        <div class="chat-actions">
+                            <button id="chatInfoBtn" class="btn btn--outline btn--sm">Info</button>
+                        </div>
+                    </div>
+
+                    <div class="messages-container" id="messagesContainer">
+                        <!-- Messages will be populated here -->
+                    </div>
+
+                    <div class="message-input-container">
+                        <button id="attachBtn" class="attachment-btn" title="Attach file">📎</button>
+                        <input type="file" id="fileInput" class="hidden" multiple>
+                        <div class="message-input-wrapper">
+                            <textarea id="messageInput" class="message-input" placeholder="Type a message..." rows="1"></textarea>
+                            <button id="emojiBtn" class="emoji-btn" title="Add emoji">😊</button>
+                        </div>
+                        <button id="sendBtn" class="send-btn" title="Send message">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M2 21L23 12L2 3V10L17 12L2 14V21Z" fill="currentColor"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Info Panel -->
+            <div id="chatInfoPanel" class="chat-info-panel hidden">
+                <div class="chat-info-header">
+                    <button id="closeChatInfo" class="close-btn">✕</button>
+                    <h3>Chat Info</h3>
+                </div>
+                <div class="chat-info-content">
+                    <div class="chat-info-contact">
+                        <span id="infoPanelAvatar" class="contact-avatar large">👤</span>
+                        <h4 id="infoPanelName">Contact Name</h4>
+                        <p id="infoPanelPhone">Phone</p>
+                    </div>
+                    <div id="groupMembersSection" class="group-members-section hidden">
+                        <h5>Group Members</h5>
+                        <div id="groupMembersList" class="group-members-list"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Emoji Picker -->
+    <div id="emojiPicker" class="emoji-picker hidden">
+        <div class="emoji-grid">
+            <span class="emoji-item">😀</span><span class="emoji-item">😃</span><span class="emoji-item">😄</span><span class="emoji-item">😁</span>
+            <span class="emoji-item">😅</span><span class="emoji-item">😂</span><span class="emoji-item">🤣</span><span class="emoji-item">😊</span>
+            <span class="emoji-item">😇</span><span class="emoji-item">🙂</span><span class="emoji-item">😉</span><span class="emoji-item">😌</span>
+            <span class="emoji-item">😍</span><span class="emoji-item">🥰</span><span class="emoji-item">😘</span><span class="emoji-item">😗</span>
+            <span class="emoji-item">😙</span><span class="emoji-item">😚</span><span class="emoji-item">😋</span><span class="emoji-item">😛</span>
+            <span class="emoji-item">😝</span><span class="emoji-item">😜</span><span class="emoji-item">🤪</span><span class="emoji-item">🤨</span>
+            <span class="emoji-item">🧐</span><span class="emoji-item">🤓</span><span class="emoji-item">😎</span><span class="emoji-item">🤩</span>
+            <span class="emoji-item">🥳</span><span class="emoji-item">😏</span><span class="emoji-item">😒</span><span class="emoji-item">😞</span>
+            <span class="emoji-item">😔</span><span class="emoji-item">😟</span><span class="emoji-item">😕</span><span class="emoji-item">🙁</span>
+            <span class="emoji-item">☹️</span><span class="emoji-item">😣</span><span class="emoji-item">😖</span><span class="emoji-item">😫</span>
+            <span class="emoji-item">👍</span><span class="emoji-item">👎</span><span class="emoji-item">👌</span><span class="emoji-item">✌️</span>
+            <span class="emoji-item">🤞</span><span class="emoji-item">🤟</span><span class="emoji-item">🤘</span><span class="emoji-item">🤙</span>
+            <span class="emoji-item">👏</span><span class="emoji-item">🙌</span><span class="emoji-item">👐</span><span class="emoji-item">🤲</span>
+            <span class="emoji-item">🙏</span><span class="emoji-item">💪</span><span class="emoji-item">🦾</span><span class="emoji-item">❤️</span>
+            <span class="emoji-item">🎉</span><span class="emoji-item">🔥</span><span class="emoji-item">⭐</span><span class="emoji-item">💯</span>
+        </div>
+    </div>
+
+    <!-- Admin Settings Modal -->
+    <div id="settingsModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Settings</h3>
+                <button id="closeSettings" class="close-btn">✕</button>
+            </div>
+            <div class="modal-body">
+                <div id="adminControls" class="admin-section hidden">
+                    <h4>Admin Controls</h4>
+                    <div class="form-group">
+                        <label for="companyNameInput" class="form-label">Company Name</label>
+                        <input type="text" id="companyNameInput" class="form-control" placeholder="Company Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="companyLogoInput" class="form-label">Company Logo (min 170x66px)</label>
+                        <input type="file" id="companyLogoInput" class="form-control" accept="image/*">
+                    </div>
+                    <div class="form-group">
+                        <button id="toggleAppBtn" class="btn btn--warning">Disable App</button>
+                        <button id="deleteAllDataBtn" class="btn btn--outline">Reset All Data</button>
+                    </div>
+                    <h5>User Management</h5>
+                    <div id="userManagementList" class="user-management-list"></div>
+                    
+                    <h5>Group Management</h5>
+                    <div id="groupManagementList" class="group-management-list"></div>
+                </div>
+                <div class="form-group">
+                    <button id="saveSettings" class="btn btn--primary">Save Settings</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- App Disable Duration Modal -->
+    <div id="disableAppModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Disable Application</h3>
+                <button id="closeDisableModal" class="close-btn">✕</button>
+            </div>
+            <div class="modal-body">
+                <p>⚠️ This will disable the entire chat application for all users.</p>
+                <div class="form-group">
+                    <label for="disableDuration" class="form-label">Select Duration</label>
+                    <select id="disableDuration" class="form-control">
+                        <option value="15">15 minutes</option>
+                        <option value="30">30 minutes</option>
+                        <option value="60">1 hour</option>
+                        <option value="120">2 hours</option>
+                        <option value="240">4 hours</option>
+                        <option value="480">8 hours</option>
+                        <option value="1440">24 hours</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="disableReason" class="form-label">Reason (Optional)</label>
+                    <textarea id="disableReason" class="form-control" placeholder="Enter reason for disabling..." rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <button id="confirmDisableApp" class="btn btn--warning">Confirm Disable</button>
+                    <button id="cancelDisableApp" class="btn btn--outline">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Group Modal -->
+    <div id="newGroupModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create New Group</h3>
+                <button id="closeNewGroup" class="close-btn">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="groupNameInput" class="form-label">Group Name</label>
+                    <input type="text" id="groupNameInput" class="form-control" placeholder="Enter group name">
+                </div>
+                <div class="form-group">
+                    <label for="groupDescriptionInput" class="form-label">Description (Optional)</label>
+                    <textarea id="groupDescriptionInput" class="form-control" placeholder="Enter group description..." rows="2"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Select Members</label>
+                    <div id="memberSelectionList" class="member-selection-list"></div>
+                </div>
+                <div class="form-group">
+                    <button id="createGroupBtn" class="btn btn--primary">Create Group</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add User Modal -->
+    <div id="addUserModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New User</h3>
+                <button id="closeAddUser" class="close-btn">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="newUserName" class="form-label">Full Name</label>
+                    <input type="text" id="newUserName" class="form-control" placeholder="Enter full name">
+                </div>
+                <div class="form-group">
+                    <label for="newUserPhone" class="form-label">Phone Number</label>
+                    <input type="tel" id="newUserPhone" class="form-control" placeholder="+1234567890">
+                </div>
+                <div class="form-group">
+                    <label for="newUserRole" class="form-label">Role</label>
+                    <select id="newUserRole" class="form-control">
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="newUserAvatar" class="form-label">Avatar Emoji</label>
+                    <input type="text" id="newUserAvatar" class="form-control" placeholder="👤" maxlength="2">
+                </div>
+                <div class="form-group">
+                    <button id="addUserBtn" class="btn btn--primary">Add User</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notificationContainer" class="notification-container"></div>
+
+    <!-- App Disabled Screen -->
+    <div id="appDisabledScreen" class="app-disabled-screen hidden">
+        <div class="disabled-content">
+            <h2>🚫 Application Temporarily Disabled</h2>
+            <p>The chat application has been temporarily disabled by the administrator.</p>
+            <div id="disableInfo" class="disable-info"></div>
+            <p>Please contact your system administrator for more information.</p>
+            <div id="enableCountdown" class="countdown"></div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
